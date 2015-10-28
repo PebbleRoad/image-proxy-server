@@ -1,0 +1,6 @@
+[submodule "bin/roles/ansible-role-node"]
+	path = bin/roles/ansible-role-node
+	url = git@bitbucket.org:pebbleroad/ansible-role-node.git
+[submodule "bin/roles/ansible-role-users"]
+	path = bin/roles/ansible-role-users
+	url = git@bitbucket.org:pebbleroad/ansible-role-users.git
