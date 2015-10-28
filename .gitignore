@@ -1,0 +1,6 @@
+.DS_Store
+node_modules
+img_output/*
+!img_output/.gitkeep
+img_input/*
+!img_input/.gitkeep

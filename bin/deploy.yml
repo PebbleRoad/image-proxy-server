@@ -1,0 +1,7 @@
+---
+- hosts: web
+  vars_files:
+    - settings.yml
+
+  roles:
+    - { role: deploy, tags: [ 'deploy' ] }

@@ -1,0 +1,33 @@
+---
+- name: git pull repo..
+  git: repo={{ git_repo }} dest={{ remote_path }} force=yes version={{ git_branch }} accept_hostkey=true
+
+- name: install npm production dependancies
+  command: npm install --production chdir={{ remote_path }}
+  sudo: false
+  tags:
+    - dependancies
+
+# installing coffee-script is done in the build phase, when installing node..
+# - name: install coffee-script package globally..
+#   npm: name=coffee-script global=yes
+#   tags:
+#     - dependancies
+
+# install coffee-script here globally.. sudo npm install -g coffee-script
+# install supervisor here globally.. sudo npm install -g supervisor
+
+- name: install bower packages
+  command: bower install chdir={{ remote_path }}
+  sudo: false
+  tags:
+    - dependancies
+
+- name: copy processes.json file..
+  template: src=processes.json.j2 dest={{ remote_path }}/processes.json mode=0660 owner={{ ansible_ssh_user }} group=www-data
+  tags:
+    - config
+
+- name: (re)start server..
+  command: pm2 startOrRestart processes.json chdir={{ remote_path }}
+  sudo: false

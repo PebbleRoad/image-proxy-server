@@ -1,0 +1,7 @@
+---
+- hosts: web
+  sudo: true
+
+  roles:
+    - { role: ansible-role-node, tags: [ 'node' ] }
+    - { role: ansible-role-users, tags: [ 'users' ] }

@@ -1,0 +1,7 @@
+git_branch: master
+remote_path: /var/www
+
+node_watch: '["app.coffee", "routes"]'
+node_use_polling: 'true'
+node_env: development
+node_port: 80

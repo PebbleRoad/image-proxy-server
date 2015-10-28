@@ -1,0 +1,20 @@
+{
+  "name": "image-proxy-server",
+  "version": "1.0.0",
+  "description": "image proxy server",
+  "main": "index.js",
+  "scripts": {
+    "start": "supervisor -watch app.coffee app.coffee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:PebbleRoad/image-proxy-server.git"
+  },
+  "author": "Ryan Yacyshyn <ryan.yacyshyn@gmail.com> (http://www.pebbleroad.com)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3",
+    "imgr": "^0.10.4",
+    "request": "^2.65.0"
+  }
+}

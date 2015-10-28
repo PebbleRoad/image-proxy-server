@@ -1,0 +1,16 @@
+{
+  "apps" : [{
+    "name": "image-proxy-server",
+    "script": "app.coffee",
+    "log-date-format": "YYYY-MM-DD HH:mm Z",
+    "ignore_watch": ["node_modules"],
+    "watch": {{ node_watch }},
+    "watch_options": {
+        "usePolling": {{ node_use_polling }}
+    },
+    "env": {
+        "NODE_ENV": "{{ node_env }}",
+        "PORT": {{ node_port }}
+    }
+  }]
+}
