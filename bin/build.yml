@@ -5,3 +5,4 @@
   roles:
     - { role: ansible-role-node, tags: [ 'node' ] }
     - { role: ansible-role-users, tags: [ 'users' ] }
+    # - { role: ansible-role-graphicsmagick, tags: [ 'graphicsmagick' ] }

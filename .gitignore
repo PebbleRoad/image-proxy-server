@@ -1,5 +1,7 @@
 .DS_Store
+.vagrant/
 node_modules
+processes.json
 img_output/*
 !img_output/.gitkeep
 img_input/*

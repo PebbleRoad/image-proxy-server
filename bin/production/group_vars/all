@@ -1,7 +1,7 @@
 git_branch: master
 remote_path: /home/ubuntu/image-proxy
 
-node_watch: '["app.coffee", "routes"]'
+node_watch: '["app.coffee"]'
 node_use_polling: 'false'
 node_env: production
-node_port: 9009
+node_port: 80

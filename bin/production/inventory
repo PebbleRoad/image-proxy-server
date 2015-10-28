@@ -1,2 +1,2 @@
 [web]
-ec2-52-74-211-237.ap-southeast-1.compute.amazonaws.com ansible_ssh_user=ubuntu
+52.76.132.44 ansible_ssh_user=ubuntu

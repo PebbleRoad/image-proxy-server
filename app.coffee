@@ -52,7 +52,8 @@ app.get '/image/:size/:imgUrl', (req, res) ->
 app.use (req, res, next)->
   err = new Error 'Not Found'
   err.status = 404
-  next err
+  # next err
+  res.status(404).send('404')
 
 # production error handler no stacktraces leaked to user
 # app.use (err, req, res, next)->
@@ -64,5 +65,5 @@ app.use (req, res, next)->
 
 app.set 'port', process.env.PORT || 9000
 
-server = app.listen 9000, () ->
+server = app.listen app.get('port'), () ->
   console.log 'express server listening on port ' + server.address().port

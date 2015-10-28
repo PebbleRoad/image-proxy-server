@@ -17,11 +17,11 @@
 # install coffee-script here globally.. sudo npm install -g coffee-script
 # install supervisor here globally.. sudo npm install -g supervisor
 
-- name: install bower packages
-  command: bower install chdir={{ remote_path }}
-  sudo: false
-  tags:
-    - dependancies
+# - name: install bower packages
+#   command: bower install chdir={{ remote_path }}
+#   sudo: false
+#   tags:
+#     - dependancies
 
 - name: copy processes.json file..
   template: src=processes.json.j2 dest={{ remote_path }}/processes.json mode=0660 owner={{ ansible_ssh_user }} group=www-data
