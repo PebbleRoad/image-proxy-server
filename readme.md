@@ -21,3 +21,7 @@ http://ext.raneous.net/post/40106080462/building-graphicsmagick-on-osx
 http://stackoverflow.com/questions/20220899/graphicsmagick-no-decode-delegate-for-this-image-format
 
 http://justinbozonier.posthaven.com/creating-an-image-proxy-server-in-nodejs
+
+Notes
+-----
+Originally used an AMI that's in the US West (N. California) region. AMI ID: ImageProxy (ami-3c85ad79). [Source here](https://github.com/eahanson/imageproxy).
