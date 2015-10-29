@@ -48,6 +48,13 @@ app.get '/image/:size/:imgUrl', (req, res) ->
     )
     .pipe(writeStream)
 
+app.get '/img/:img', (req, res, next) ->
+  imgFile = req.params.img
+  if ((/nomovie.jpg|nomovie@2x.jpg/).test(imgFile) is false)
+    next()
+    return
+  fs.createReadStream('img/' + imgFile).pipe(res)
+
 # catch 404 and forward to error handler
 app.use (req, res, next)->
   err = new Error 'Not Found'
