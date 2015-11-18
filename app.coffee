@@ -48,6 +48,49 @@ app.get '/image/:size/:imgUrl', (req, res) ->
     )
     .pipe(writeStream)
 
+### --------------------------------------------------------------------------------------------------
+# This is for SCB..
+###
+app.get '/sc/:size/:imgUrl', (req, res) ->
+  imgUrl = req.params.imgUrl
+  rawSize = req.params.size
+  imgSize = rawSize.split('x')
+
+  # bail if not the right size..
+  if (rawSize isnt '375x175')
+    res.status(403).send('Invalid size..')
+    console.log '** attempt was made to resize image with invalid size:', req.originalUrl
+    return
+
+  # console.log 'resize:', imgSize
+
+  inDir = 'sc_input/'
+  outDir = 'sc_output/'
+  filename = url.parse(imgUrl).pathname.split('/').pop()
+  filename = filename.replace(/(.*)(\.[^\.]*)$/, "$1-" + rawSize + "$2")
+
+  inputPath = inDir + filename
+  outputPath = outDir + filename
+
+  writeStream = fs.createWriteStream inputPath
+  writeStream.on('finish', ->
+    console.log '>> file downloaded:', filename
+    imgr.load(inputPath).crop(750, 350, 688, 0).adaptiveResize(imgSize[0], imgSize[1]).save outputPath, (err) ->
+      if err then err
+      console.log '>> file resized:', outputPath
+      fs.unlink inputPath, (err) ->
+        if err then throw err
+      fs.createReadStream(outputPath).pipe(res)
+  )
+
+  console.log '>> requesting file from:', imgUrl
+  request
+    .get(imgUrl)
+    .on('error', ->
+      console.log '** error requesting file from', imgUrl
+    )
+    .pipe(writeStream)
+
 app.get '/img/:img', (req, res, next) ->
   imgFile = req.params.img
   if ((/nomovie.jpg|nomovie@2x.jpg/).test(imgFile) is false)

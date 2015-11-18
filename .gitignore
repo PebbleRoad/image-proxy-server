@@ -6,3 +6,7 @@ img_output/*
 !img_output/.gitkeep
 img_input/*
 !img_input/.gitkeep
+sc_output/*
+!sc_output/.gitkeep
+sc_input/*
+!sc_input/.gitkeep
