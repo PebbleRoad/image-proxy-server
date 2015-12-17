@@ -8,6 +8,25 @@ app = express()
 
 imgr = new IMGR({ gm_quality: 90 })
 
+app.get '/poster/:size/:imgUrl', (req, res) ->
+  imgUrl = req.params.imgUrl
+  rawSize = req.params.size
+  outDir = './img_output/'
+
+  filename = url.parse(imgUrl).pathname.split('/').pop()
+  filename = filename.replace(/(.*)(\.[^\.]*)$/, "$1-" + rawSize + "$2")
+
+  imgFile = outDir + filename
+
+  fs.stat imgFile, (err, stats) ->
+    if (err)
+      if (rawSize is '320x474')
+        fs.createReadStream('./img/nomovie@2x.jpg').pipe(res)
+      else
+        fs.createReadStream('./img/nomovie.jpg').pipe(res)
+    else
+      fs.createReadStream(imgFile).pipe(res)
+
 app.get '/image/:size/:imgUrl', (req, res) ->
   imgUrl = req.params.imgUrl
   rawSize = req.params.size

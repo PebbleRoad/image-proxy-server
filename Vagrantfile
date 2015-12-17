@@ -27,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network "forwarded_port", guest: 80, host: 4081
   config.vm.network "forwarded_port", guest: 443, host: 4444
-  config.vm.network "private_network", ip: "192.168.2.10"
+  config.vm.network "private_network", ip: "192.168.2.11"
   # config.vm.network "public_network"
 
   # https://github.com/mitchellh/vagrant/issues/5059
