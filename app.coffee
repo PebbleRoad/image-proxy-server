@@ -92,15 +92,22 @@ app.get '/sc/:size/:imgUrl', (req, res) ->
   outputPath = outDir + filename
 
   writeStream = fs.createWriteStream inputPath
-  writeStream.on('finish', ->
+
+  writeStream.on 'finish', ->
     console.log '>> file downloaded:', filename
     imgr.load(inputPath).crop(750, 350, 688, 0).adaptiveResize(imgSize[0], imgSize[1]).save outputPath, (err) ->
       if err then err
       console.log '>> file resized:', outputPath
+
       fs.unlink inputPath, (err) ->
         if err then throw err
-      fs.createReadStream(outputPath).pipe(res)
-  )
+      
+      # check if file exists..
+      fs.stat outputPath, (err, stats) ->
+        if err and err.code is 'ENOENT'
+          res.status(404).end('404')
+        else
+          fs.createReadStream(outputPath).pipe(res)
 
   console.log '>> requesting file from:', imgUrl
   request
