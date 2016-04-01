@@ -1,2 +1,2 @@
 [web]
-52.76.132.44 ansible_ssh_user=ubuntu
+54.254.161.240 ansible_ssh_user=ubuntu
