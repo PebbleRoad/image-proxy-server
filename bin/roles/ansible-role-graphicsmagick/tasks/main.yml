@@ -1,2 +1,2 @@
 - include: jpglib.yml
-# - include: graphicsmagick.yml
+- include: graphicsmagick.yml
