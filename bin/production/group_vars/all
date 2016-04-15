@@ -5,3 +5,5 @@ node_watch: '["app.coffee"]'
 node_use_polling: 'false'
 node_env: production
 node_port: 80
+
+env: production

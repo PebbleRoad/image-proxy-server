@@ -3,6 +3,7 @@
   gather_facts: false
   vars_files:
     - settings.yml
+    - "{{ env }}/secrets.yml"
 
   roles:
     - { role: deploy, tags: [ 'deploy' ] }
