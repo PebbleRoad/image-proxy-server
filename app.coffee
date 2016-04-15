@@ -6,6 +6,8 @@ url = require 'url'
 AWS = require 'aws-sdk'
 IMGR = require('imgr').IMGR
 
+region = 'sg'
+
 AWS.config.region = 'ap-southeast-1'
 s3 = new AWS.S3 { params: { Bucket: 'scsearchimages' }}
 
@@ -139,7 +141,7 @@ sendToS3 = (file, cb) ->
     if err
       cb err
     else
-      s3.upload { Body: data, Key: basefile, ACL: 'public-read', ContentType: 'image/jpg' }, (err, res) ->
+      s3.upload { Body: data, Key: region + '/search/images/' + basefile, ACL: 'public-read', ContentType: 'image/jpg' }, (err, res) ->
         if err
           cb err
         else

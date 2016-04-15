@@ -9,7 +9,9 @@ URL should have the size and the URL that you want to resize. For example:
 `/image/160x237/http%3A%2F%2Fallon.it%2Fwp-content%2Fuploads%2F2015%2F02%2Fgatt.jpg`
 
 Example for SC:
+
 `http://domain.com/sc/375x175/https%3A%2F%2Fwww.sc.com%2Fsg%2Fassets%2Fpws%2Fimages%2Fbanner%2F1580x350_sme_banking.jpg`
+`http://192.168.2.11/sc/375x175/https%3A%2F%2Fwww.sc.com%2Fsg%2Fassets%2Fpws%2Fimages%2Fbanner%2F1580x350_sme_banking.jpg`
 
 Don't forget to URL encode the path to the source image.
 
