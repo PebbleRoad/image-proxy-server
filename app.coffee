@@ -1,8 +1,13 @@
 express = require 'express'
 request = require 'request'
 fs = require 'fs'
+path = require 'path'
 url = require 'url'
+AWS = require 'aws-sdk'
 IMGR = require('imgr').IMGR
+
+AWS.config.region = 'ap-southeast-1'
+s3 = new AWS.S3 { params: { Bucket: 'scsearchimages' }}
 
 app = express()
 
@@ -107,7 +112,10 @@ app.get '/sc/:size/:imgUrl', (req, res) ->
         if err and err.code is 'ENOENT'
           res.status(404).end('404')
         else
-          fs.createReadStream(outputPath).pipe(res)
+          # fs.createReadStream(outputPath).pipe(res)
+          sendToS3 outputPath, (err, data) ->
+            if err then throw err
+            res.send data
 
   console.log '>> requesting file from:', imgUrl
   request
@@ -123,6 +131,21 @@ app.get '/img/:img', (req, res, next) ->
     next()
     return
   fs.createReadStream('img/' + imgFile).pipe(res)
+
+# http://blog.katworksgames.com/2014/01/26/nodejs-deploying-files-to-aws-s3/
+sendToS3 = (file, cb) ->
+  basefile = file.substr file.lastIndexOf("/") + 1
+  fs.readFile file, (err, data) ->
+    if err
+      cb err
+    else
+      s3.upload { Body: data, Key: basefile, ACL: 'public-read', ContentType: 'image/jpg' }, (err, res) ->
+        if err
+          cb err
+        else
+          console.log 'done:', res
+          # res.send res
+          cb null, res
 
 # catch 404 and forward to error handler
 app.use (req, res, next)->

@@ -10,7 +10,9 @@
     },
     "env": {
         "NODE_ENV": "{{ node_env }}",
-        "PORT": {{ node_port }}
+        "PORT": {{ node_port }},
+        "AWS_ACCESS_KEY_ID": "{{ aws_key }}",
+        "AWS_SECRET_ACCESS_KEY": "{{ aws_secret_key }}"
     }
   }]
 }
