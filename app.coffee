@@ -95,6 +95,9 @@ app.get '/sc/:size/:imgUrl', (req, res) ->
   filename = url.parse(imgUrl).pathname.split('/').pop()
   filename = filename.replace(/(.*)(\.[^\.]*)$/, "$1-" + rawSize + "$2")
 
+  country = getCountry imgUrl
+  console.log country
+
   inputPath = inDir + filename
   outputPath = outDir + filename
 
@@ -115,7 +118,7 @@ app.get '/sc/:size/:imgUrl', (req, res) ->
           res.status(404).end('404')
         else
           # fs.createReadStream(outputPath).pipe(res)
-          sendToS3 outputPath, (err, data) ->
+          sendToS3 outputPath, country, (err, data) ->
             if err then throw err
             res.send data
 
@@ -135,19 +138,23 @@ app.get '/img/:img', (req, res, next) ->
   fs.createReadStream('img/' + imgFile).pipe(res)
 
 # http://blog.katworksgames.com/2014/01/26/nodejs-deploying-files-to-aws-s3/
-sendToS3 = (file, cb) ->
+sendToS3 = (file, country, cb) ->
   basefile = file.substr file.lastIndexOf("/") + 1
   fs.readFile file, (err, data) ->
     if err
       cb err
     else
-      s3.upload { Body: data, Key: region + '/search/images/' + basefile, ACL: 'public-read', ContentType: 'image/jpg' }, (err, res) ->
+      s3.upload { Body: data, Key: country + '/search/images/' + basefile, ACL: 'public-read', ContentType: 'image/jpg' }, (err, res) ->
         if err
           cb err
         else
           console.log 'done:', res
           # res.send res
           cb null, res
+
+getCountry = (imgUrl) ->
+  path = url.parse(imgUrl).pathname.split('/')
+  return path[1]
 
 # catch 404 and forward to error handler
 app.use (req, res, next)->
