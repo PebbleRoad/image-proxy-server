@@ -77,10 +77,11 @@ app.get '/image/:size/:imgUrl', (req, res) ->
 ### --------------------------------------------------------------------------------------------------
 # This is for SCB..
 ###
-app.get '/sc/:size/:imgUrl', (req, res) ->
+app.get '/sc/:size/:country/:imgUrl', (req, res) ->
   imgUrl = req.params.imgUrl
   rawSize = req.params.size
   imgSize = rawSize.split('x')
+  country = req.params.country
 
   # bail if not the right size..
   if (rawSize isnt '375x175' and rawSize isnt '750x350')
@@ -94,9 +95,6 @@ app.get '/sc/:size/:imgUrl', (req, res) ->
   outDir = 'sc_output/'
   filename = url.parse(imgUrl).pathname.split('/').pop()
   filename = filename.replace(/(.*)(\.[^\.]*)$/, "$1-" + rawSize + "$2")
-
-  country = getCountry imgUrl
-  console.log country
 
   inputPath = inDir + filename
   outputPath = outDir + filename
@@ -151,10 +149,6 @@ sendToS3 = (file, country, cb) ->
           console.log 'done:', res
           # res.send res
           cb null, res
-
-getCountry = (imgUrl) ->
-  path = url.parse(imgUrl).pathname.split('/')
-  return path[1]
 
 # catch 404 and forward to error handler
 app.use (req, res, next)->
