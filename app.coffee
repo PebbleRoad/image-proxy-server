@@ -125,6 +125,7 @@ app.get '/sc/:size/:country/:imgUrl', (req, res) ->
     .get(imgUrl)
     .on('error', ->
       console.log '** error requesting file from', imgUrl
+      res.status(404).end('404')
     )
     .pipe(writeStream)
 

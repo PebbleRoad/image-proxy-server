@@ -13,6 +13,8 @@ Example for SC:
 `http://domain.com/sc/375x175/https%3A%2F%2Fwww.sc.com%2Fsg%2Fassets%2Fpws%2Fimages%2Fbanner%2F1580x350_sme_banking.jpg`
 `http://192.168.2.11/sc/375x175/https%3A%2F%2Fwww.sc.com%2Fsg%2Fassets%2Fpws%2Fimages%2Fbanner%2F1580x350_sme_banking.jpg`
 
+`http://52.76.132.44/sc/375x175/<country>/https%3A%2F%2Fwww.sc.com%2Fsg%2Fassets%2Fpws%2Fimages%2Fbanner%2F1580x350_sme_banking.jpg`
+
 Don't forget to URL encode the path to the source image.
 
 Dependancies
