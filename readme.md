@@ -17,6 +17,17 @@ Example for SC:
 
 Don't forget to URL encode the path to the source image.
 
+Images
+------
+
+The source path:
+
+https://scsearchimages.s3-ap-southeast-1.amazonaws.com/lk/search/images/lk_08_ml_top_banner-375x175.jpg
+
+The SC path:
+
+https://www.sc.com/lk/search/images/lk_08_ml_top_banner-375x175.jpg
+
 Dependancies
 ------------
 This requires [GraphicsMagick](http://www.graphicsmagick.org/) with the JPG library. For Mac, [follow this](http://ext.raneous.net/post/40106080462/building-graphicsmagick-on-osx) and download version 9a. Probably the same for *nix.
