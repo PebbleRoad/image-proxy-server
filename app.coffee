@@ -40,10 +40,10 @@ app.get '/image/:size/:imgUrl', (req, res) ->
   imgSize = rawSize.split('x')
 
   # bail if not the right size..
-  if (rawSize isnt '160x237' and rawSize isnt '320x474')
-    res.status(403).send('Invalid size..')
-    console.log '** attempt was made to resize image with invalid size:', req.originalUrl
-    return
+  # if (rawSize isnt '160x237' and rawSize isnt '320x474')
+  #   res.status(403).send('Invalid size..')
+  #   console.log '** attempt was made to resize image with invalid size:', req.originalUrl
+  #   return
 
   # console.log 'resize:', imgSize
 
