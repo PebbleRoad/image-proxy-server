@@ -70,16 +70,16 @@ app.get '/image/:size/:imgUrl', (req, res) ->
 
       fs.createReadStream(outputPath)
         .on('error', ->
+          console.error 'File couldn\'t be downloaded. Too many redirects?'
           res.status(400).send('File couldn\'t be downloaded. Too many redirects?')
         )
         .pipe(res)
   )
 
   console.log '>> requesting file from:', imgUrl
-  request
-    .get(imgUrl)
+  request({ url: imgUrl, followRedirect: true, followAllRedirects: true })
     .on('response', (response) ->
-      # console.log '>> statusCode:', JSON.stringify(response, null, 2)
+      console.log '>> statusCode:', response.statusCode
     )
     .on('error', ->
       console.log '** error requesting file from', imgUrl
