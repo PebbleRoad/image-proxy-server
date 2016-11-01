@@ -34,6 +34,9 @@ app.get '/poster/:size/:imgUrl', (req, res) ->
     else
       fs.createReadStream(imgFile).pipe(res)
 
+### --------------------------------------------------------------------------------------------------
+# For everything..
+###
 app.get '/image/:size/:imgUrl', (req, res) ->
   imgUrl = req.params.imgUrl
   rawSize = req.params.size
@@ -61,14 +64,23 @@ app.get '/image/:size/:imgUrl', (req, res) ->
     imgr.load(inputPath).adaptiveResize(imgSize[0], imgSize[1]).save outputPath, (err) ->
       if err then err
       console.log '>> file resized:', outputPath
+      
       fs.unlink inputPath, (err) ->
         if err then throw err
-      fs.createReadStream(outputPath).pipe(res)
+
+      fs.createReadStream(outputPath)
+        .on('error', ->
+          res.status(400).send('File couldn\'t be downloaded. Too many redirects?')
+        )
+        .pipe(res)
   )
 
   console.log '>> requesting file from:', imgUrl
   request
     .get(imgUrl)
+    .on('response', (response) ->
+      # console.log '>> statusCode:', JSON.stringify(response, null, 2)
+    )
     .on('error', ->
       console.log '** error requesting file from', imgUrl
     )
