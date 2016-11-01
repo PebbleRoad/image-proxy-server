@@ -43,3 +43,13 @@ http://justinbozonier.posthaven.com/creating-an-image-proxy-server-in-nodejs
 Notes
 -----
 Originally used an AMI that's in the US West (N. California) region. AMI ID: ImageProxy (ami-3c85ad79). [Source here](https://github.com/eahanson/imageproxy).
+
+Smart Crop Option
+-----------------
+
+Starting with the intent engine, we needed a way to intelligently crop images from DBpedia. We're using [SmartCrop](https://github.com/jwagner/smartcrop.js/), actually the [adapter module for Node](https://github.com/jwagner/smartcrop-gm).
+
+Need to install [ImageMagik](https://gist.github.com/rodleviton/74e22e952bd6e7e5bee1). Download from [here](http://www.imagemagick.org/download/).
+
+
+

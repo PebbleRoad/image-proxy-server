@@ -5,6 +5,8 @@ path = require 'path'
 url = require 'url'
 AWS = require 'aws-sdk'
 IMGR = require('imgr').IMGR
+gm = require('gm').subClass(imageMagick: true)
+smartcrop = require('smartcrop-gm')
 
 region = 'sg'
 
@@ -41,6 +43,9 @@ app.get '/image/:size/:imgUrl', (req, res) ->
   imgUrl = req.params.imgUrl
   rawSize = req.params.size
   imgSize = rawSize.split('x')
+  # smartcrop = if (req.params.smart is 'smartcrop') then true else false
+
+  # console.log 'smartcrop:', smartcrop
 
   # bail if not the right size..
   # if (rawSize isnt '160x237' and rawSize isnt '320x474')
@@ -50,41 +55,66 @@ app.get '/image/:size/:imgUrl', (req, res) ->
 
   # console.log 'resize:', imgSize
 
-  inDir = 'img_input/'
-  outDir = 'img_output/'
+  inDir = './img_input/'
+  outDir = './img_output/'
   filename = url.parse(imgUrl).pathname.split('/').pop()
   filename = filename.replace(/(.*)(\.[^\.]*)$/, "$1-" + rawSize + "$2")
 
   inputPath = inDir + filename
   outputPath = outDir + filename
 
-  writeStream = fs.createWriteStream inputPath
-  writeStream.on('finish', ->
-    console.log '>> file downloaded:', filename
-    imgr.load(inputPath).adaptiveResize(imgSize[0], imgSize[1]).save outputPath, (err) ->
-      if err then err
-      console.log '>> file resized:', outputPath
-      
-      fs.unlink inputPath, (err) ->
-        if err then throw err
+  # if (!smartcrop)
+  #   writeStream = fs.createWriteStream inputPath
+  #   writeStream.on('finish', ->
+  #     console.log '>> file downloaded:', filename
+  #     imgr.load(inputPath).adaptiveResize(imgSize[0], imgSize[1]).save outputPath, (err) ->
+  #       if err then err
+  #       console.log '>> file resized:', outputPath
+        
+  #       fs.unlink inputPath, (err) ->
+  #         if err then throw err
 
-      fs.createReadStream(outputPath)
-        .on('error', ->
-          console.error 'File couldn\'t be downloaded. Too many redirects?'
-          res.status(400).send('File couldn\'t be downloaded. Too many redirects?')
-        )
-        .pipe(res)
-  )
+  #       fs.createReadStream(outputPath)
+  #         .on('error', ->
+  #           console.error 'File couldn\'t be downloaded. Too many redirects?'
+  #           res.status(400).send('File couldn\'t be downloaded. Too many redirects?')
+  #         )
+  #         .pipe(res)
+  #   )
 
-  console.log '>> requesting file from:', imgUrl
-  request({ url: imgUrl, followRedirect: true, followAllRedirects: true })
-    .on('response', (response) ->
-      console.log '>> statusCode:', response.statusCode
-    )
-    .on('error', ->
-      console.log '** error requesting file from', imgUrl
-    )
-    .pipe(writeStream)
+  #   console.log '>> requesting file from:', imgUrl
+
+  #   request({ url: imgUrl, followRedirect: true, followAllRedirects: true })
+  #     .on('response', (response) ->
+  #       console.log '>> statusCode:', response.statusCode
+  #     )
+  #     .on('error', ->
+  #       console.log '** error requesting file from', imgUrl
+  #     )
+  #     .pipe(writeStream)
+  # else
+  ###
+  # new smart crop..
+  ###
+  request imgUrl, { encoding: null }, (err, response, body) ->
+    if err
+      console.error err
+      res.status(400).send('Something went wrong when requesting the image..')
+      return
+    smartcrop.crop(body,{ width: imgSize[0], height: imgSize[1] }).then (result) ->
+      crop = result.topCrop
+      gm(body).crop(crop.width, crop.height, crop.x, crop.y).resize(imgSize[0], imgSize[1]).write outputPath, (error) ->
+        if error
+          console.error error
+          res.status(400).send('Something went wrong when cropping the image..')
+        else
+          console.log('good')
+          fs.createReadStream(outputPath)
+            .on('error', ->
+              console.error 'Something went wrong while streaming image out..'
+              res.status(400).send('Something went wrong while streaming image out..')
+            )
+            .pipe(res)
 
 ### --------------------------------------------------------------------------------------------------
 # This is for SCB..

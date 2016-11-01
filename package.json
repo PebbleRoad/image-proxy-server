@@ -16,6 +16,7 @@
     "aws-sdk": "^2.3.3",
     "express": "^4.13.3",
     "imgr": "^0.10.4",
-    "request": "^2.65.0"
+    "request": "^2.65.0",
+    "smartcrop-gm": "^1.0.2"
   }
 }
