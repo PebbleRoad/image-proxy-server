@@ -4,7 +4,7 @@
 
 - name: install npm production dependancies
   command: npm install --production chdir={{ remote_path }}
-  sudo: false
+  become: false
   tags:
     - dependancies
 
@@ -19,7 +19,7 @@
 
 # - name: install bower packages
 #   command: bower install chdir={{ remote_path }}
-#   sudo: false
+#   become: false
 #   tags:
 #     - dependancies
 
@@ -30,4 +30,4 @@
 
 - name: (re)start server..
   command: pm2 startOrRestart processes.json chdir={{ remote_path }}
-  sudo: false
+  become: false
