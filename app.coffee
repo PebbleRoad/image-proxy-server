@@ -15,7 +15,7 @@ s3 = new AWS.S3 { params: { Bucket: 'scsearchimages' }}
 
 app = express()
 
-imgr = new IMGR({ gm_quality: 90 })
+imgr = new IMGR({ gm_quality: 90, orientation: 1, crop_offset: 8 })
 
 app.get '/poster/:size/:imgUrl', (req, res) ->
   imgUrl = req.params.imgUrl
