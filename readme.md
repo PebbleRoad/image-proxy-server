@@ -49,7 +49,9 @@ Smart Crop Option
 
 Starting with the intent engine, we needed a way to intelligently crop images from DBpedia. We're using [SmartCrop](https://github.com/jwagner/smartcrop.js/), actually the [adapter module for Node](https://github.com/jwagner/smartcrop-gm).
 
-Need to install [ImageMagik](https://gist.github.com/rodleviton/74e22e952bd6e7e5bee1). Download from [here](http://www.imagemagick.org/download/).
+Need to install [ImageMagik](https://help.ubuntu.com/community/ImageMagick).
+
+Turns out it's not so great with athletes, it's focusing on tennis racquets and legs.. :l
 
 
 
